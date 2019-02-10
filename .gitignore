@@ -1,0 +1,6 @@
+#Do not include node modules
+node_modules/
+resources/sounds/*
+resources/images/*
+SOUNDS.js
+package-lock.json

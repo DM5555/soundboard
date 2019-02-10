@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="./main.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+    <script src="./index_main.js"></script>
+    <script src="./Sound.js"></script>
+    <script src="./SOUNDS.js"></script>
+  </head>
+  <body>
+    <div id="menubar-background"></div>
+    <div id="menubar">
+      <h1>EPIC GAMER SOUNDBOARD</h1>
+      <div id="sfw-container">
+        <h2 id="sfw-text" class="menu-text">Safe:</h2>
+        <div id="sfw-checkbox" class="checkbox">
+            <label class="switch">
+              <input class="switch-input" type="checkbox" id="sfw-enabled" checked></input>
+              <span class="slider"></span>
+            </label>
+          </div>
+      </div>
+      <div id="loud-container" >
+        <h2 id="loud-text" class="menu-text">Extra-Loud:</h2>
+        <div id="loud-checkbox" class="checkbox">
+            <label class="switch">
+              <input class="switch-input" type="checkbox" id="loud-enabled"></input>
+              <span class="slider" id="loud-slider"></span>
+            </label>
+        </div>
+      </div>
+      <button id="stop-button"><h2>Stop All</h2></button>
+
+    </div>
+    <div id="soundpanel">
+    </div>
+    <div id="audio-tags">
+    </div>
+  </body>
+</html>
