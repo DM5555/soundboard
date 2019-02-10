@@ -1,7 +1,10 @@
 EPIC GAMER SOUNDBOARD
 (may possibly be renamed in the future)
 
-The sound files are not included with the source and can be downloaded seprately:
+
+
+The sound files are not included with the source and can be downloaded separately via this link:
+[GOOGLE DRIVE FOLDER]{https://drive.google.com/open?id=1GjSqOsr2LvGwYoSGF0N8mZlHpPMQD3tM}
 
 This is known to work with:
 ```
