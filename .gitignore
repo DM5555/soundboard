@@ -4,3 +4,5 @@ resources/sounds/*
 resources/images/*
 SOUNDS.js
 package-lock.json
+!resources/images/IMAGES_GO_HERE.txt
+!resources/sounds/SOUNDS_GO_HERE.txt

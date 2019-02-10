@@ -1,0 +1,4 @@
+All images belong in this folder.
+They must be square and a png.
+Don't make them too big.
+Name them the same as 'filename' in the SOUNDS.js file.

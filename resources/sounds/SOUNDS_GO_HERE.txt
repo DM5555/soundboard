@@ -1,0 +1,4 @@
+All sounds belong in this folder.
+They must be an mp3 file.
+Don't make them too big.
+Name them the same as 'filename' in the SOUNDS.js file.
