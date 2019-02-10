@@ -4,9 +4,18 @@ EPIC GAMER SOUNDBOARD
 
 
 The sound files are not included with the source and can be downloaded separately via this link:
+disclaimer: the sounds are VERY OUTDATED at the moment. These sounds do not belong to me they belong to their respective creator (you can hold CTRL to open them in YouTube).
 [GOOGLE DRIVE FOLDER]{https://drive.google.com/open?id=1GjSqOsr2LvGwYoSGF0N8mZlHpPMQD3tM}
 
-This is known to work with:
+**Usage:**
+- Click a sound to play it.
+- Click STOP ALL to stop all the sounds playing.
+- Click a sound while holding SHIFT to stop just that sound.
+- Click a sound while holding CTRL to open the origin of that sound in YouTube (not all buttons tested).
+- Safe mode hides some sounds.
+- Turning safe mode unlocks the EXTRA LOUD feature which boosts the bass and the volume by large amounts.
+
+**Modules That I Know It Works With:**
 ```
 Node.js v11.7.0
 Electron v4.0.2
@@ -30,3 +39,6 @@ Electron v4.0.2
 - Insert each sound into /resources/sounds as a .mp3 file and rename it to whatever is specified in the 'filename' field.
 - Insert the sound thumbnail into /resources/sounds as a SQUARE .png file and rename it to whatever is specified in the 'filename' field.
 - Replace the 'yt' field with the ID of the YouTube video that you got the sound from.
+
+**EXTRA:**
+Do not open index.html in any web browser (Chrome, Firefox, Safari, Edge, Internet Explorer, etc...). You will have problems if you do that so don't do it. Use electron instead.
