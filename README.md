@@ -1,7 +1,7 @@
 EPIC GAMER SOUNDBOARD
 (may possibly be renamed in the future)
 
-
+Made with help from Nathan (NopeXD#0148)
 
 ***The sound files are not included with the source and can be downloaded separately via this link:***  
 disclaimer: the sounds are VERY OUTDATED at the moment. These sounds do not belong to me they belong to their respective creator (you can hold CTRL to open them in YouTube).  
