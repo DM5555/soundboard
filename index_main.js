@@ -9,6 +9,7 @@ const loudContainer = document.getElementById("loud-container");
 const loudEnabled = document.getElementById("loud-enabled");
 const loudSlider = document.getElementById("loud-slider");
 
+const volumeSlider = document.getElementById("volume-slider");
 
 const soundPanel = document.getElementById("soundpanel");
 const audioSpace = document.getElementById("audio-tags");
@@ -27,7 +28,7 @@ try {
 soundBank = [];
 
 SOUNDS.forEach((info)=>{
-  soundBank.push(new Sound(info.name,info.filename,audioSpace,soundPanel,false,info.sfw,info.yt));
+  soundBank.push(new Sound(info.name,info.filename,audioSpace,soundPanel,false,(volumeSlider.value)/6666,info.sfw,info.yt));
 });
 
 const stopAllButton = document.getElementById("stop-button");
@@ -70,6 +71,11 @@ checkbox.addEventListener('change',(evt) => {
   }
 });
 
+volumeSlider.oninput = (evt) => {
+	updateVolume(evt.target.value/6666);
+	updateVolumeSliderColour(evt.target.value);
+};
+
 
 
 window.onkeydown = (evt)=>{
@@ -110,6 +116,37 @@ function updateLoud(enabled){
       k.setBassBoost(false);
     });
   }
+}
+
+function updateVolume(vol){
+	soundBank.forEach((k) => {
+		k.setVolume(vol);
+	});
+}
+
+function updateVolumeSliderColour(value){
+	if (value <= 6666){ //Two thirds
+		volumeSlider.style.backgroundColor = "#5bd395";
+	} else {
+		//Green hsl(149, 58%, 59%)
+		//Red hsl(0, 66%, 58%)
+
+		//Interpolation
+		var multiplier = (value-6666)/3334;
+		var hDiff = -149;
+		var sDiff = 8;
+		var lDiff = -1;
+
+		var hBase = 149
+		var sBase = 58;
+		var lBase = 59;
+
+		var h = hBase + hDiff*multiplier;
+		var s = sBase + sDiff*multiplier;
+		var l = lBase + lDiff*multiplier;
+
+		volumeSlider.style.backgroundColor = "hsl("+h+", "+s+"%, +"+l+"%)";
+	}
 }
 
 function updateIconFunctions(latestPressDown){

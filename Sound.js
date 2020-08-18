@@ -1,6 +1,6 @@
 class Sound {
 
-  constructor(name, filename, audioSpace, soundPanel, bassBoost, sfw, ytID) {
+  constructor(name, filename, audioSpace, soundPanel, bassBoost, vol, sfw, ytID) {
     this.name = name;
     this.filename = filename;
     this.soundLocation = "./resources/sounds/" + filename + ".mp3";
@@ -13,6 +13,7 @@ class Sound {
     this.bassBoost = bassBoost;
     this.sfw = sfw;
     this.clickMode = "none";
+    this.volume = vol;
 
     this.button = document.createElement('div');
     this.button.classList.add("sound-button");
@@ -26,9 +27,11 @@ class Sound {
       if (this.clickMode == "stop"){
         this.stopAll();
       } else if(this.clickMode == "yt"){
-        require('electron').shell.openExternal("https://youtube.com/watch?v="+this.ytID);
+        if (this.ytID != ""){
+          require('electron').shell.openExternal("https://youtube.com/watch?v="+this.ytID);
+        }
       } else {
-        this.start(this.bassBoost);
+        this.start(this.bassBoost, this.volume);
       }
     }
 
@@ -45,8 +48,8 @@ class Sound {
     this.soundPanel.appendChild(this.button);
   }
 
-  start(bassBoosted){
-    var currentSound = new SoundPlayer(this.soundLocation, bassBoosted, this.audioSpace);
+  start(bassBoosted, vol){
+    var currentSound = new SoundPlayer(this.soundLocation, bassBoosted, this.audioSpace, vol);
 
     var id = this.latestPlayingId;
     this.playingSounds[this.latestPlayingId] = currentSound;
@@ -82,6 +85,14 @@ class Sound {
     });
   }
 
+  setVolume(vol){
+    this.volume = vol;
+    Object.keys(this.playingSounds).forEach((key) => {
+      this.playingSounds[key].setVolume(vol);
+    });
+
+  }
+
   currentSoundsPlaying(){
     return Object.keys(this.playingSounds).length;
   }
@@ -104,7 +115,11 @@ class Sound {
       if (this.clickMode == "stop"){
         this.setButtonDisplayClass("button-stop");
       } else if(this.clickMode == "yt"){
-        this.setButtonDisplayClass("button-yt-active");
+        if (this.ytID != ""){
+          this.setButtonDisplayClass("button-yt-active");
+        } else {
+          this.setButtonDisplayClass("button-disabled");
+        }
       } else {
         this.setButtonDisplayClass("button-active");
       }
@@ -112,7 +127,11 @@ class Sound {
       if (this.clickMode == "stop"){
           this.setButtonDisplayClass("button-disabled");
       } else if(this.clickMode == "yt"){
-        this.setButtonDisplayClass("button-yt");
+        if (this.ytID != ""){
+          this.setButtonDisplayClass("button-yt");
+        } else {
+          this.setButtonDisplayClass("button-disabled");
+        }
       } else {
           this.setButtonDisplayClass("button-ready");
       }
@@ -142,11 +161,12 @@ class Sound {
 }
 
 class SoundPlayer {
-  constructor(location, bassBoosted, audioSpace){
+  constructor(location, bassBoosted, audioSpace, volume){
     this.location = location;
     this.bassBoosted = bassBoosted;
     this.audioSpace = audioSpace;
     this.callbacks = [];
+    this.volume = volume;
 
     var audioNode = document.createElement('audio');
     audioNode.src = this.location;
@@ -163,14 +183,22 @@ class SoundPlayer {
     this.bassFilter.gain.value = 3;
 
     this.gainFilter = this.audioCtx.createGain();
-    this.gainFilter.gain.value = 10;
+    this.gainFilter.gain.value = 20;
+
+    //Volume Filter (Not extra loud)
+    this.volumeFilter = this.audioCtx.createGain();
+    this.volumeFilter.gain.value = this.volume;
+
+    //Connect filter
+    this.source.connect(this.volumeFilter);
+    this.volumeFilter.connect(this.audioCtx.destination);
 
     if (bassBoosted){
       this.source.connect(this.bassFilter);
       this.bassFilter.connect(this.gainFilter);
-      this.gainFilter.connect(this.audioCtx.destination);
+      this.gainFilter.connect(this.volumeFilter);
     } else {
-      this.source.connect(this.audioCtx.destination);
+      this.source.connect(this.volumeFilter);
     }
 
     this.audioNode.onended = () => {
@@ -201,14 +229,18 @@ class SoundPlayer {
         this.gainFilter.disconnect();
         this.source.connect(this.bassFilter);
         this.bassFilter.connect(this.gainFilter);
-        this.gainFilter.connect(this.audioCtx.destination);
+        this.gainFilter.connect(this.volumeFilter);
     } else {
 
         this.source.disconnect();
         this.bassFilter.disconnect();
         this.gainFilter.disconnect();
-        this.source.connect(this.audioCtx.destination);
+        this.source.connect(this.volumeFilter);
     }
+  }
+
+  setVolume(vol){
+    this.volumeFilter.gain.value = vol;
   }
 
   onFinish(f){
